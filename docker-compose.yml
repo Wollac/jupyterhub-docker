@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+
+  jupyterhub:
+    build: jupyter-hub
+    image: wollac/jupyterhub
+    container_name: jupyter_hub
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /etc/group:/etc/group:ro
+      - /etc/passwd:/etc/passwd:ro
+      - /etc/shadow:/etc/shadow:ro
+    environment:
+      DOCKER_JUPYTER_IMAGE: wollac/jupyter-datascience-pyscip
+      DOCKER_NETWORK_NAME: ${COMPOSE_PROJECT_NAME}_default
+      HUB_IP: jupyter_hub
+      ADMIN_USER: ${ADMIN_USER}
+    ports:
+      - "127.0.0.1:8888:8000"
+    networks:
+      - jupyter
+    restart: unless-stopped
+
+  jupyterlab:
+    build: jupyter-notebook
+    image: wollac/jupyter-datascience-pyscip
+    container_name: jupyter_throwaway
+    network_mode: none
+    command: echo
+
+networks:
+  jupyter:
+    external:
+      name: ${COMPOSE_PROJECT_NAME}_default
+
