@@ -17,4 +17,11 @@ ADMIN_USER=admin
 ### SCIP
 
 The jupyter-notebook requires a local copy of the [SCIP Optimization Suite](http://scip.zib.de).
-Copy the corresponding folder to `jupyter-notebook/scip-opt`.
+Follow the installation instructions [here](jupyter-notebook/README.md) before building.
+
+### Docker
+
+Run the following command to update the images and start the hub:
+```
+docker-compose up -d --build
+```
