@@ -4,5 +4,6 @@ Based on `jupyter/datascience-notebook` including [PySCIPOpt](https://github.com
 
 ## Installation
 
-Rquires a working installation of the [SCIP Optimization Suite](http://scip.zib.de/).
-Copy the files to the `scip-opt` folder.
+ This build requires a working installation of the [SCIP Optimization Suite](https://scip.zib.de/):
+ - Download and install the SCIP Optimization Suite.
+ - **Copy** the content of the entire installation folder into the `SCIPOptSuite` directory.

@@ -1,10 +1,9 @@
 FROM jupyter/datascience-notebook:latest
 
-# Install pyscipopt
+# install pyscipopt
 ENV SCIPOPTDIR=/opt/scip
 
-COPY scip-opt/lib ${SCIPOPTDIR}/lib
-COPY scip-opt/include ${SCIPOPTDIR}/include
+COPY SCIPOptSuite/lib ${SCIPOPTDIR}/lib
+COPY SCIPOptSuite/include/scip ${SCIPOPTDIR}/include/scip
 
 RUN pip install pyscipopt
-
