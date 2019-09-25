@@ -17,7 +17,7 @@ ADMIN_USER=admin
 ### SCIP
 
 The jupyter-notebook requires a local copy of the [SCIP Optimization Suite](http://scip.zib.de).
-Follow the installation instructions [here](jupyter-notebook/README.md) before building.
+Follow the installation instructions [here](jupyter-notebook/README.md) to copy the SCIP Optimization Suite files into the `jupyter-nodebook` folder.
 
 ### Docker
 
