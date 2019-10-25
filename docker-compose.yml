@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
 
@@ -9,20 +9,22 @@ services:
     restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:rw
-      - /etc/group:/etc/group:ro
-      - /etc/passwd:/etc/passwd:ro
-      - /etc/shadow:/etc/shadow:ro
     environment:
       DOCKER_JUPYTER_IMAGE: wollac/jupyter-datascience-pyscip
-      DOCKER_NETWORK_NAME: ${COMPOSE_PROJECT_NAME}_default
+      DOCKER_NETWORK_NAME: ${DOCKER_NETWORK_NAME}
       HUB_IP: jupyter_hub
-      ADMIN_USER: ${ADMIN_USER}
-    ports:
-      - "127.0.0.1:8888:8000"
+    env_file:
+      - secrets/oauth.env
     networks:
+      - ${TRAEFIK_NETWORK}
       - jupyter
     restart: unless-stopped
-
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=${TRAEFIK_NETWORK}"
+      - "traefik.http.routers.jupyterhub.rule=Host(`${TRAEFIK_HOST}`)"
+      - "traefik.http.routers.jupyterhub.tls.certResolver=default"
+ 
   jupyterlab:
     build: jupyter-notebook
     image: wollac/jupyter-datascience-pyscip
@@ -31,7 +33,10 @@ services:
     command: echo
 
 networks:
+  web:
+    external: true
+
   jupyter:
     external:
-      name: ${COMPOSE_PROJECT_NAME}_default
+      name: ${DOCKER_NETWORK_NAME}
 

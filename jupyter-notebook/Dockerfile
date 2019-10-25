@@ -1,9 +1,10 @@
 FROM jupyter/datascience-notebook:latest
 
-# install pyscipopt
+# copy the SCIP optimization suite
 ENV SCIPOPTDIR=/opt/scip
 
 COPY SCIPOptSuite/lib ${SCIPOPTDIR}/lib
 COPY SCIPOptSuite/include ${SCIPOPTDIR}/include
 
-RUN pip install pyscipopt
+RUN /opt/conda/bin/pip install --no-cache-dir \
+        pyscipopt

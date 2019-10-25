@@ -6,14 +6,37 @@ jupyterhub-docker provides a simple deployment of [JupyterHub](https://github.co
 
 ### Configuration
 
-Create the file `.env` in the base folder with the following content:
-```
-# name for this Docker Compose application, it can be whatever you like
-COMPOSE_PROJECT_NAME=jupyter
+-   Configure Docker Compose: Create the file `.env` in the base folder with the following content:
+    ```
+    # name of Docker network
+    DOCKER_NETWORK_NAME=jupyterhub-network
 
-# user name of the user with admin rights
-ADMIN_USER=admin
-```
+    # name of the traefik docker network
+    TRAEFIK_NETWORK=traefik
+
+    # host under which traefik should make jupyter available
+    TRAEFIK_HOST=<myhost.mydomain>
+    ```
+
+-  Configure `userlist`: Create a `userlist` file in the `jupyter-hub` folder.
+   This file contains the list of authorized JupyterHub users specified by their GitHub usernames, and this file should designate at least one `admin` user.
+   For example:
+   ```
+   unrealsoon admin
+   kittypuree
+   flangefile
+   ```
+
+-   Configure GitHub OAuth: You must pass the GitHub OAuth Client ID, Client Secret and OAuth callback url JupyterHub's runtime.
+    To do this, add them to an `oauth.env` file in the `secrets` directory of this repository.
+    You may need to create both the `secrets` directory and the `oauth.env` file.
+    For example, add the following lines in the `oauth.env` file:
+    ```
+    GITHUB_CLIENT_ID=<github_client_id>
+    GITHUB_CLIENT_SECRET=<github_client_secret>
+    OAUTH_CALLBACK_URL=https://<myhost.mydomain>/hub/oauth_callback
+    ```
+
 ### SCIP
 
 The jupyter-notebook requires a local copy of the [SCIP Optimization Suite](http://scip.zib.de).

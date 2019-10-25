@@ -3,10 +3,26 @@ import sys
 
 ## Generic
 c.JupyterHub.admin_access = True
-# c.Spawner.default_url = '/lab'
+#c.Spawner.default_url = '/lab'
 
-## Authenticator
-c.Authenticator.admin_users = [os.environ['ADMIN_USER']]
+## Authenticate users with GitHub OAuth
+c.JupyterHub.authenticator_class = 'oauthenticator.GitHubOAuthenticator'
+
+# Whitlelist users and admins
+c.Authenticator.whitelist = whitelist = set()
+c.Authenticator.admin_users = admin = set()
+
+pwd = os.path.dirname(__file__)
+with open(os.path.join(pwd, 'userlist')) as f:
+    for line in f:
+        line = line.split('#', 1)[0]
+        line = line.rstrip() # ignore comments
+        parts = line.split()
+        if len(parts) >= 1:
+            name = parts[0]
+            whitelist.add(name)
+            if len(parts) > 1 and parts[1] == 'admin':
+                admin.add(name)
 
 ## Docker spawner
 c.JupyterHub.spawner_class = 'dockerspawner.DockerSpawner'
@@ -25,10 +41,6 @@ notebook_dir = os.environ.get('DOCKER_NOTEBOOK_DIR') or '/home/jovyan/work'
 c.DockerSpawner.notebook_dir = notebook_dir
 c.DockerSpawner.volumes = { 'jupyterhub-user-{username}': notebook_dir }
 
-# Other stuff
-c.Spawner.cpu_limit = 1
-c.Spawner.mem_limit = '1G'
-
 ## Services
 c.JupyterHub.services = [
     {
@@ -38,3 +50,6 @@ c.JupyterHub.services = [
     }
 ]
 
+## Other stuff
+c.Spawner.cpu_limit = 1
+c.Spawner.mem_limit = '1G'
