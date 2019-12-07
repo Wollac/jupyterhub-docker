@@ -8,10 +8,10 @@ jupyterhub-docker provides a simple deployment of [JupyterHub](https://github.co
 
 -   Configure Docker Compose: Create the file `.env` in the base folder with the following content:
     ```
-    # name of Docker network
-    DOCKER_NETWORK_NAME=jupyterhub-network
+    # name of docker network in which the jupyter containers are run
+    DOCKER_NETWORK=jupyterhub-network
 
-    # name of the traefik docker network
+    # name of the docker network of traefik
     TRAEFIK_NETWORK=traefik
 
     # host under which traefik should make jupyter available

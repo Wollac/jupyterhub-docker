@@ -11,12 +11,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:rw
     environment:
       DOCKER_JUPYTER_IMAGE: wollac/jupyter-datascience-pyscip
-      DOCKER_NETWORK_NAME: ${DOCKER_NETWORK_NAME}
+      DOCKER_NETWORK_NAME: ${DOCKER_NETWORK}
       HUB_IP: jupyter_hub
     env_file:
       - secrets/oauth.env
     networks:
-      - ${TRAEFIK_NETWORK}
+      - web
       - jupyter
     restart: unless-stopped
     labels:
@@ -34,9 +34,9 @@ services:
 
 networks:
   web:
-    external: true
+    external:
+      name: ${TRAEFIK_NETWORK}
 
   jupyter:
     external:
-      name: ${DOCKER_NETWORK_NAME}
-
+      name: ${DOCKER_NETWORK}
