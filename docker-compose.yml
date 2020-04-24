@@ -23,7 +23,6 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=${TRAEFIK_NETWORK}"
       - "traefik.http.routers.jupyterhub.rule=Host(`${TRAEFIK_HOST}`)"
-      - "traefik.http.routers.jupyterhub.tls.certResolver=default"
  
   jupyterlab:
     build: jupyter-notebook
