@@ -9,7 +9,7 @@ c.JupyterHub.admin_access = True
 c.JupyterHub.authenticator_class = 'oauthenticator.GitHubOAuthenticator'
 
 # Whitlelist users and admins
-c.Authenticator.whitelist = whitelist = set()
+c.Authenticator.allowed_users = whitelist = set()
 c.Authenticator.admin_users = admin = set()
 
 pwd = os.path.dirname(__file__)
@@ -44,9 +44,13 @@ c.DockerSpawner.volumes = { 'jupyterhub-user-{username}': notebook_dir }
 ## Services
 c.JupyterHub.services = [
     {
-        'name': 'cull-idle',
+        'name': 'idle-culler',
         'admin': True,
-        'command': [sys.executable, 'cull_idle_servers.py', '--timeout=3600'],
+        'command': [
+            sys.executable,
+            '-m', 'jupyterhub_idle_culler',
+            '--timeout=3600'
+        ],
     }
 ]
 
